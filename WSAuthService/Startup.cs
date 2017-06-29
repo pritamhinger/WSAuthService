@@ -21,6 +21,7 @@ namespace WSAuthService
             services.AddMvc();
             services.AddIdentityServer()
                 .AddTemporarySigningCredential()
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApiResource())
                 .AddInMemoryClients(Config.GetClients())
                 .AddTestUsers(Config.GetUsers());
@@ -42,7 +43,8 @@ namespace WSAuthService
                 SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
                 SignOutScheme = IdentityServerConstants.SignoutScheme,
                 DisplayName = "Open ID Connect",
-                Authority = "https://demo.identityserver.io",
+                Authority = "http://localhost:5000",
+                RequireHttpsMetadata = false,
                 ClientId = "implicit",
 
                 TokenValidationParameters = new TokenValidationParameters {

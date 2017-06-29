@@ -1,4 +1,5 @@
-﻿using IdentityServer4.Models;
+﻿using IdentityServer4;
+using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,17 @@ namespace WSAuthService
                         new Secret("secret".Sha256())
                     },
                     AllowedScopes = { "api1" }
+                },
+                new Client {
+                    ClientId = "admapp",
+                    ClientName = "Winshuttle ADMApp 2.0",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    AllowedScopes = new List<string> {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    }
                 }
             };
         }
@@ -42,6 +54,15 @@ namespace WSAuthService
                     Username = "phinger",
                     Password = "$abcd1234"
                 }
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource> {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+                new IdentityResources.Email(),
             };
         }
     }
