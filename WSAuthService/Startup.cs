@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using IdentityServer4;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WSAuthService
 {
@@ -16,6 +18,7 @@ namespace WSAuthService
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
             services.AddIdentityServer()
                 .AddTemporarySigningCredential()
                 .AddInMemoryApiResources(Config.GetApiResource())
@@ -34,6 +37,22 @@ namespace WSAuthService
             }
 
             app.UseIdentityServer();
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
+                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                SignOutScheme = IdentityServerConstants.SignoutScheme,
+                DisplayName = "Open ID Connect",
+                Authority = "https://demo.identityserver.io",
+                ClientId = "implicit",
+
+                TokenValidationParameters = new TokenValidationParameters {
+                    NameClaimType = "name",
+                    RoleClaimType = "role"
+                }
+            });
+
+            app.UseStaticFiles();
+            app.UseMvcWithDefaultRoute();
 
             app.Run(async (context) =>
             {
