@@ -72,7 +72,6 @@ namespace WSAuthService
             /// Azure AD Configuration
             /// 
             
-            var tenantId = "6a9a71ed-8cf7-4121-8198-024e0d24fa2b";
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
                 AuthenticationScheme = schemeName,
