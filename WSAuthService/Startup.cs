@@ -9,6 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using IdentityServer4;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace WSAuthService
 {
@@ -38,12 +42,27 @@ namespace WSAuthService
             }
 
             app.UseIdentityServer();
+            app.UseCookieAuthentication(new CookieAuthenticationOptions {
+                AuthenticationScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                AutomaticAuthenticate = false,
+                AutomaticChallenge = false
+            });
+
+            var dataProtectionProvider = app.ApplicationServices.GetRequiredService<IDataProtectionProvider>();
+            var distributedCache = app.ApplicationServices.GetRequiredService<IDistributedCache>();
+            var dataProtector = dataProtectionProvider.CreateProtector(
+               typeof(OpenIdConnectMiddleware).FullName,
+               typeof(string).FullName, "oidc",
+               "v1");
+
+            var dataFormat = new CachedPropertiesDataFormat(distributedCache, dataProtector);
+            var tenantId = "6a9a71ed-8cf7-4121-8198-024e0d24fa2b";
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
                 SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
                 SignOutScheme = IdentityServerConstants.SignoutScheme,
                 DisplayName = "Open ID Connect",
-                Authority = "http://localhost:5000",
+                Authority = "https://winauthservice.azurewebsites.net/",
                 RequireHttpsMetadata = false,
                 ClientId = "implicit",
 
@@ -51,6 +70,14 @@ namespace WSAuthService
                     NameClaimType = "name",
                     RoleClaimType = "role"
                 }
+            //}).UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
+            //    AuthenticationScheme = "oidc",
+            //    DisplayName = "Pritam Azure AD",
+            //    SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+            //    ClientId = "2beaf9f4-9eeb-4219-983e-ae8e454b70e6",
+            //    Authority = $"https://login.microsoftonline.com/{tenantId}",
+            //    ResponseType = OpenIdConnectResponseType.IdToken,
+            //    StateDataFormat = dataFormat
             });
 
             app.UseStaticFiles();

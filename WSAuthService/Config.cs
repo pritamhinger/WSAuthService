@@ -28,13 +28,14 @@ namespace WSAuthService
                     AllowedScopes = { "api1" }
                 },
                 new Client {
-                    ClientId = "admapp",
+                    ClientId = "2beaf9f4-9eeb-4219-983e-ae8e454b70e6",
                     ClientName = "Winshuttle ADMApp 2.0",
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    RedirectUris = { "https://admappwebsite.azurewebsites.net/" },
+                    PostLogoutRedirectUris = { "https://admappwebsite.azurewebsites.net/" },
                     AllowedScopes = new List<string> {
                         IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.Profile
                     }
                 }
