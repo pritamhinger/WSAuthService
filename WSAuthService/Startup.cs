@@ -57,7 +57,7 @@ namespace WSAuthService
                 AutomaticChallenge = false
             });
 
-            var schemeName = "oidc";
+            var schemeName = "AzureAD";
             var dataProtectionProvider = app.ApplicationServices.GetRequiredService<IDataProtectionProvider>();
             var distributedCache = app.ApplicationServices.GetRequiredService<IDistributedCache>();
 
@@ -78,9 +78,14 @@ namespace WSAuthService
                 DisplayName = "Pritam AzureAD",
                 SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
                 ClientId = "2beaf9f4-9eeb-4219-983e-ae8e454b70e6",
-                Authority = $"https://login.microsoftonline.com/6a9a71ed-8cf7-4121-8198-024e0d24fa2b",
+                Authority = $"https://login.microsoftonline.com/common/",
                 ResponseType = OpenIdConnectResponseType.IdToken,
-                StateDataFormat = dataFormat
+                StateDataFormat = dataFormat,
+                TokenValidationParameters = new TokenValidationParameters {
+                    ValidateIssuer = false,
+                    AuthenticationType = "idsrv.external"
+
+                }
             });
 
             //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions {
