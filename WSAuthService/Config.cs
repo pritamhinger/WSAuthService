@@ -31,8 +31,8 @@ namespace WSAuthService
                     ClientId = "admapp",
                     ClientName = "Winshuttle ADMApp 2.0",
                     AllowedGrantTypes = GrantTypes.Implicit,
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002" },
+                    RedirectUris = { "https://admappwebsite.azurewebsites.net/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://admappwebsite.azurewebsites.net" },
                     AllowedScopes = new List<string> {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Email,
