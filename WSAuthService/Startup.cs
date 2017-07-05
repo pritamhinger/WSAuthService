@@ -49,12 +49,13 @@ namespace WSAuthService
                 AutomaticAuthenticate = false,
                 AutomaticChallenge = false
             });
-            
-            app.UseCookieAuthentication(new CookieAuthenticationOptions {
-                AuthenticationScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
 
-                AutomaticAuthenticate = false,
-                AutomaticChallenge = false
+            app.UseGoogleAuthentication(new GoogleOptions {
+                AuthenticationScheme = "Google",
+                DisplayName = "Login With Google",
+                SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme,
+                ClientId = "910648818463-vfuocte751i8ntmnsubbfaa7s31chsse.apps.googleusercontent.com",
+                ClientSecret = "lTlc-5UWoh_hXHe9PoX0akC_"
             });
 
             var schemeName = "AzureAD";
