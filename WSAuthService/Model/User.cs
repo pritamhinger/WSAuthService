@@ -9,5 +9,6 @@ namespace WSAuthService.Model
     {
         public long Id { get; set; }
         public string UserIdentifier { get; set; }
+        public Tenant Tenant { get; set; }
     }
 }

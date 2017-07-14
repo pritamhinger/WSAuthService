@@ -8,6 +8,7 @@ namespace WSAuthService.ProjectController
 {
     public class TenantUserController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
