@@ -10,5 +10,6 @@ namespace WSAuthService.Model
         public long Id { get; set; }
         public string AuthorityURL { get; set; }
         public Dictionary<string, object> Metadata { get; set; }
+        public List<Tenant> Tenants { get; set; }
     }
 }
