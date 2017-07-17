@@ -8,6 +8,7 @@ namespace WSAuthService.Model
     public class Tenant
     {
         public long Id { get; set; }
+        public string TenantIdentifier{ get; set; }
         public string DomainName { get; set; }
         public WSIdentityProvider IdentityProvider { get; set; }
         public List<User> Users { get; set; }
