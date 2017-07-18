@@ -7,7 +7,8 @@ using WSAuthService.Model;
 
 namespace WSAuthService.ProjectController
 {
-    public class TenantUserController : Controller
+	[Route("user")]
+	public class TenantUserController : Controller
     {
 
         [HttpPut("{id}/user/{userId}")]

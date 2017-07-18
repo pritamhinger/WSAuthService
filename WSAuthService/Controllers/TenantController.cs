@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authorization;
 using WSAuthService.Model;
+using WSAuthService.DataBase;
 
 namespace WSAuthService.ProjectController
 {
@@ -28,8 +29,10 @@ namespace WSAuthService.ProjectController
                 return BadRequest();
             }
 
-            // TODO: Save the tenant here to DB
-            tenant = TestData.tenant;
+			// TODO: Save the tenant here to DB
+			DBlayer dbLayer = new DBlayer();
+			tenant=dbLayer.Create(tenant);
+           // tenant = TestData.tenant;
             return CreatedAtRoute("tenant", new { id = tenant.Id }, tenant);
         }
 
@@ -59,40 +62,6 @@ namespace WSAuthService.ProjectController
             }
 
             // TODO: Remove the tenant
-            return new NoContentResult();
-        }
-        #endregion
-
-        #region IdentiTy Provider Actions
-        [HttpPut("{id}/idp/{idpId}")]
-        public IActionResult UpdateIdentityProvider(long id, long idpId, [FromBody] WSIdentityProvider identityProvider)
-        {
-            if (identityProvider == null || idpId != identityProvider.Id) {
-                return BadRequest();
-            }
-
-            var tenant = TestData.GetTenantById(id);
-            if (tenant == null || tenant.IdentityProvider.Id != idpId) {
-                return BadRequest();
-            }
-
-            // TODO:  Update IdentityProvider here
-            return new NoContentResult();
-        }
-
-        [HttpDelete("{id}/idp/{idpId}")]
-        public IActionResult DeleteIdentityProvider(long id, long idpId, [FromBody] WSIdentityProvider identityProvider)
-        {
-            if (identityProvider == null || idpId != identityProvider.Id) {
-                return BadRequest();
-            }
-
-            var tenant = TestData.GetTenantById(id);
-            if (tenant == null || tenant.IdentityProvider.Id != idpId) {
-                return BadRequest();
-            }
-
-            // TODO:  Delete IdentityProvider here
             return new NoContentResult();
         }
         #endregion

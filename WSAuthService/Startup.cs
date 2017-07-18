@@ -100,10 +100,11 @@ namespace WSAuthService
             //});
 
             app.UseStaticFiles();
-            //app.UseMvcWithDefaultRoute();
-            app.UseMvc(routes => {
-                routes.MapRoute(name: "tenant", template: "{controller=tenant}/{action=GetTenantForId}/{id?}");
-             });
+			//app.UseMvcWithDefaultRoute();
+			//app.UseMvc(routes => {
+			//    routes.MapRoute(name: "tenant", template: "{controller=tenant}/{action=GetTenantForId}/{id?}");
+			// });
+			app.UseMvc();
 
             //app.Run(async (context) =>
             //{
