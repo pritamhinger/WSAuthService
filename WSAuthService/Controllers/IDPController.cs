@@ -12,13 +12,21 @@ namespace WSAuthService.Controllers
 	public class IDPController : Controller
 	{
 		public object DBLayer { get; private set; }
-
+		DBlayer dbLayer = new DBlayer();
 		public IActionResult Index()
 		{
 			return View();
 		}
 
 		#region IdentiTy Provider Actions
+		[HttpGet]
+		public IActionResult GetIdentityProviderForTenantId(long tenantId)
+		{
+			List<WSIdentityProvider> identityProviders = dbLayer.getAllIDPs(tenantId);
+			return Ok(new { identityProviders });
+
+		}
+
 		[HttpGet("{id}")]
 		public IActionResult GetIdentityProviderForId(long Id)
 		{
@@ -39,7 +47,8 @@ namespace WSAuthService.Controllers
 			identityProvider.TenantId = tenantId;
 			dbLayer.CreateIDP(identityProvider);
 
-			return CreatedAtRoute("IDP", new { id = identityProvider.Id }, identityProvider);
+			//return CreatedAtRoute("IDP", new { id = identityProvider.Id }, identityProvider);
+			return Ok(new { identityProvider });
 		}
 
 		[HttpPut("idp/{idpId}")]

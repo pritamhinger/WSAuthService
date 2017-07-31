@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using WSAuthService.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace WSAuthService.DataBase
 {
@@ -36,6 +37,13 @@ namespace WSAuthService.DataBase
 		{
 			_database.GetCollection<WSIdentityProvider>("WSIdentityProviders").InsertOne(wsIdentityProvider);
 			return wsIdentityProvider;
+		}
+
+		public List<WSIdentityProvider> getAllIDPs(long TenantId)
+		{
+
+			List<WSIdentityProvider> WSIdenttitiyProviders= _database.GetCollection<WSIdentityProvider>("WSIdentityProviders").Find(d=>d.TenantId==TenantId).ToList();
+			return WSIdenttitiyProviders;
 		}
 
 
